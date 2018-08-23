@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +12,21 @@ namespace DwgSmsServerNet
     /// </summary>
     class Gsm7BitEncoding : Encoding
     {
+        public override int GetByteCount(char[] chars)
+        {
+            var bytes = GetGsm7BitBytes(chars);
+
+            return bytes.Length;
+        }
+
+        public override int GetByteCount(string text)
+        {
+            var bytes = GetGsm7BitBytes(text.ToCharArray());
+
+            return bytes.Length;
+        }
+
+
         public override int GetByteCount(char[] chars, int index, int count)
         {
             var newChars = new char[count];
@@ -20,6 +35,17 @@ namespace DwgSmsServerNet
             var bytes = GetGsm7BitBytes(newChars);
 
             return bytes.Length;
+        }
+
+
+        public override byte[] GetBytes(string text)
+        {
+            return GetGsm7BitBytes(text.ToCharArray());
+        }
+
+        public override byte[] GetBytes(char[] chars)
+        {
+            return GetGsm7BitBytes(chars);
         }
 
         public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
